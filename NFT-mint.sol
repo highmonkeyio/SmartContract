@@ -11,7 +11,7 @@ contract NFT is ERC721Enumerable, Ownable {
   string public baseExtension = ".json";
   uint256 public cost = 0.06 ether;
   uint256 public maxSupply = 10000;
-  uint256 public maxMintAmount = 20;
+  uint256 public maxMintAmount = 5;
   bool public paused = false;
   bool public revealed = false;
   string public notRevealedUri;
@@ -111,19 +111,5 @@ contract NFT is ERC721Enumerable, Ownable {
   function pause(bool _state) public onlyOwner {
     paused = _state;
   }
- 
-  function withdraw() public payable onlyOwner {
-    // This will pay 5% of the initial sale.
-    // =============================================================================
-    (bool hs, ) = payable(0x3361eC22aEA78153817e3C3fA99B461695d5AAAA).call{value: address(this).balance * 5 / 100}("");
-    require(hs);
-    // =============================================================================
-    
-    // This will payout the owner 95% of the contract balance.
-    // Do not remove this otherwise you will not be able to withdraw the funds.
-    // =============================================================================
-    (bool os, ) = payable(owner()).call{value: address(this).balance}("");
-    require(os);
-    // =============================================================================
-  }
+
 }
